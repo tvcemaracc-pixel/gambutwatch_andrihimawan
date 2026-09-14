@@ -1,127 +1,363 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/ACER/Downloads/index%20(3).html -->
-<html lang="id"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GambutWatch — Monitoring Gambut</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f3f6f2;color:#17321f}
-header{background:#174d2a;color:white;padding:18px 22px;position:sticky;top:0;z-index:2}
-header h1{margin:0;font-size:22px}header p{margin:5px 0 0;opacity:.85;font-size:13px}
-nav{display:flex;gap:8px;padding:12px;max-width:1100px;margin:auto}
-nav button{border:0;border-radius:10px;padding:11px 15px;background:white;color:#174d2a;font-weight:bold;cursor:pointer}
-nav button.active{background:#174d2a;color:white}
-main{max-width:1100px;margin:auto;padding:8px 12px 40px}.page{display:none}.page.active{display:block}
-.card{background:white;border-radius:16px;padding:18px;margin:12px 0;box-shadow:0 2px 10px #0000000d}
-h2{margin:4px 0 14px;font-size:20px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-label{font-size:13px;font-weight:bold;display:block;margin-bottom:6px}input,select,textarea{width:100%;padding:12px;border:1px solid #d5ddd6;border-radius:10px;font-size:15px;background:#fff}
-textarea{min-height:80px}.full{grid-column:1/-1}.row{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:bold;cursor:pointer}.primary{background:#174d2a;color:white}.secondary{background:#e6efe8;color:#174d2a}.danger{background:#b72e2e;color:white}
-.photo{border:2px dashed #b8c8ba;border-radius:12px;padding:18px;text-align:center}
-#preview{max-width:100%;max-height:260px;border-radius:12px;margin-top:10px;display:none}
-.status{padding:14px;border-radius:12px;font-weight:bold;text-align:center;font-size:18px}.safe{background:#dff2df;color:#1c6b28}.warn{background:#fff0bd;color:#805c00}.critical{background:#ffd9d9;color:#a01818}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{padding:16px;border-radius:14px;background:white;text-align:center}.stat b{display:block;font-size:25px}
-table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px;border-bottom:1px solid #e5eae5;text-align:left;vertical-align:top}th{background:#f0f5f0}
-.badge{padding:5px 8px;border-radius:20px;font-weight:bold;font-size:11px}.b-safe{background:#dff2df}.b-warn{background:#fff0bd}.b-critical{background:#ffd9d9}
-small{color:#66776a}.empty{text-align:center;padding:30px;color:#77847a}
-@media(max-width:700px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,1fr)}table{display:block;overflow-x:auto}}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Arial,sans-serif;background:#f3f6f2;color:#17321f}
+  header{background:#174d2a;color:#fff;padding:18px 22px;position:sticky;top:0;z-index:10}
+  header h1{margin:0;font-size:24px}
+  header p{margin:5px 0 0;opacity:.9;font-size:13px}.credit{margin-top:8px;font-size:12px;opacity:.9}
+  nav{display:flex;gap:8px;padding:12px;max-width:1100px;margin:auto}
+  nav button{border:0;border-radius:8px;padding:10px 15px;background:#dfe9e1;color:#174d2a;font-weight:700;cursor:pointer}
+  nav button.active{background:#174d2a;color:white}
+  main{max-width:1100px;margin:auto;padding:0 12px 30px}
+  .card{background:white;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+  .section-title{font-size:18px;font-weight:700;margin:0 0 14px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field.full{grid-column:1/-1}
+  label{font-weight:700;font-size:14px}
+  .req{color:#b00020}
+  input,select,textarea{width:100%;padding:11px;border:1px solid #ccd8ce;border-radius:8px;font-size:14px;background:#fff}
+  input[readonly]{background:#f3f6f3}
+  textarea{min-height:90px;resize:vertical}
+  .gps-row{display:flex;gap:8px}
+  .gps-row input{flex:1}
+  button.primary{background:#174d2a;color:#fff;border:0;border-radius:8px;padding:11px 15px;font-weight:700;cursor:pointer}
+  button.secondary{background:#e9efea;color:#174d2a;border:0;border-radius:8px;padding:11px 15px;font-weight:700;cursor:pointer}
+  .photos{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .photo-box{border:1px dashed #a9c0ad;border-radius:10px;padding:12px;background:#fbfdfb}
+  .photo-preview{width:100%;max-height:190px;object-fit:cover;border-radius:8px;margin-top:8px;display:none}
+  .video-preview{width:100%;max-height:240px;border-radius:8px;margin-top:8px;display:none}
+  .status{padding:12px;border-radius:9px;font-weight:700;text-align:center;background:#edf3ee}
+  .status.aman{background:#dff1df;color:#176326}
+  .status.waspada{background:#fff1c7;color:#7a5600}
+  .status.darurat{background:#ffdede;color:#9b111e}
+  .actions{display:flex;gap:10px;flex-wrap:wrap}
+  .hidden{display:none}
+  .table-wrap{overflow:auto}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:9px;border-bottom:1px solid #e1e8e2;text-align:left;vertical-align:top}
+  th{background:#f1f5f1}
+  .thumb{width:60px;height:45px;object-fit:cover;border-radius:5px}
+  .badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:700}
+  .badge.aman{background:#dff1df}.badge.waspada{background:#fff1c7}.badge.darurat{background:#ffdede}
+  .note{font-size:12px;color:#5b6b60}
+  @media(max-width:760px){.grid,.photos{grid-template-columns:1fr}header h1{font-size:21px}}
 </style>
 </head>
 <body>
-<header><h1>🌿 GambutWatch</h1><p>Prototype monitoring gambut berbasis HP / komputer</p></header>
+<header>
+  <h1>🌿 GambutWatch</h1>
+  <p>Monitoring kondisi gambut — format laporan diselaraskan dengan KoboToolbox</p><div class="credit">Design by <strong>Andri Himawan</strong></div>
+</header>
+
 <nav>
-<button class="active" onclick="showPage('input',this)">📋 Input Laporan</button>
-<button onclick="showPage('dash',this)" class="">📊 Dashboard</button>
+  <button id="tabInput" class="active" onclick="showTab('input')">Input Laporan</button>
+  <button id="tabDash" onclick="showTab('dashboard')">Dashboard</button>
 </nav>
+
 <main>
-<section id="input" class="page active">
-<div class="card">
-<h2>Monitoring Gambut</h2>
-<div class="grid">
-<div><label>ID Laporan</label><input id="rid" readonly=""></div>
-<div><label>Lokasi</label><input id="loc" placeholder="Contoh: Rasau Jaya"></div>
-<div><label>GPS</label><input id="gps" placeholder="Belum diambil" readonly=""></div>
-<div><label>Waktu</label><input id="time" readonly=""></div>
-<div class="full photo">
-<label>📷 Dokumentasi Foto — 4 foto wajib</label>
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
-<div><label>Foto 1 — Papan Ukur MAT</label><input id="photo1" type="file" accept="image/*" capture="environment"><img id="preview1" style="max-width:100%;max-height:180px;border-radius:10px;margin-top:8px;display:none"></div>
-<div><label>Foto 2 — Arah Utara</label><input id="photo2" type="file" accept="image/*" capture="environment"><img id="preview2" style="max-width:100%;max-height:180px;border-radius:10px;margin-top:8px;display:none"></div>
-<div><label>Foto 3 — Arah Selatan</label><input id="photo3" type="file" accept="image/*" capture="environment"><img id="preview3" style="max-width:100%;max-height:180px;border-radius:10px;margin-top:8px;display:none"></div>
-<div><label>Foto 4 — Kondisi Gambut</label><input id="photo4" type="file" accept="image/*" capture="environment"><img id="preview4" style="max-width:100%;max-height:180px;border-radius:10px;margin-top:8px;display:none"></div>
-</div>
-<small>Di HP, setiap kolom dapat membuka kamera.</small>
-</div>
-<div><div><label>🌡️ Suhu (°C)</label><input id="temp" type="number" step="0.1" value="34"></div></div>
-<div><div><label>💧 Tinggi Muka Air (cm)</label><input id="water" type="number" step="1" value="-55"></div></div>
-<div><div><label>📝 Kondisi Gambut</label><select id="condition"><option>Basah</option><option>Lembap</option><option selected="">Kering</option><option>Sangat Kering</option></select></div></div>
-<div><div><label>🔥 Asap</label><select id="smoke"><option>Tidak</option><option selected="">Ada</option></select></div></div>
-<div><div><label>🔥 Api</label><select id="fire"><option selected="">Tidak</option><option>Ada</option></select></div></div>
-<div class="full"><label>Catatan</label><textarea id="notes" placeholder="Keterangan kondisi lapangan..."></textarea></div>
-</div>
-<div class="row" style="margin-top:14px">
-<button class="btn secondary" onclick="getGPS()">📍 Ambil GPS</button>
-<button class="btn secondary" onclick="setTime()">🕐 Waktu Sekarang</button>
-<button class="btn primary" onclick="saveReport()">💾 Simpan Laporan</button>
-</div>
-<div id="statusBox" class="status warn" style="margin-top:14px">🟡 WASPADA</div>
-<small>Status dihitung otomatis berdasarkan kondisi yang dimasukkan.</small>
-</div>
+<section id="inputTab">
+  <div class="card">
+    <div class="section-title">Identitas Pengamatan</div>
+    <div class="grid">
+      <div class="field">
+        <label>Nama lokasi pengamatan <span class="req">*</span></label>
+        <select id="kabupaten" required>
+          <option value="">Pilih</option>
+          <option value="Kabupaten Kubu Raya">Kabupaten Kubu Raya</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Kecamatan <span class="req">*</span></label>
+        <input id="kecamatan" placeholder="Masukkan kecamatan" required>
+      </div>
+      <div class="field">
+        <label>Nama Petugas</label>
+        <input id="petugas" placeholder="Nama petugas">
+      </div>
+      <div class="field">
+        <label>ID Laporan</label>
+        <input id="idLaporan" readonly>
+      </div>
+      <div class="field">
+        <label>Lokasi GPS <span class="req">*</span></label>
+        <div class="gps-row">
+          <input id="gps" readonly placeholder="Belum diambil" required>
+          <button class="secondary" type="button" onclick="ambilGPS()">📍 Ambil GPS</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Waktu <span class="req">*</span></label>
+        <input id="waktu" readonly required>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Pengukuran Gambut</div>
+    <div class="grid">
+      <div class="field">
+        <label>Tinggi Muka Air Tanah Gambut (cm) <span class="req">*</span></label>
+        <input id="tinggi_muka_air_gambut" type="number" step="0.1" placeholder="Contoh: -55" required>
+      </div>
+      <div class="field">
+        <label>Suhu (°C) <span class="req">*</span></label>
+        <input id="suhu" type="number" step="0.1" placeholder="Contoh: 34" required>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Dokumentasi Foto</div>
+    <div class="photos">
+      <div class="photo-box">
+        <label>Foto Rambu Ukur MAT <span class="req">*</span></label>
+        <input id="foto_mat" type="file" accept="image/*" capture="environment" required>
+        <img id="preview_mat" class="photo-preview">
+      </div>
+      <div class="photo-box">
+        <label>Foto Vegetasi dan Ekosistem <span class="req">*</span></label>
+        <input id="foto_vegetasi" type="file" accept="image/*" capture="environment" required>
+        <img id="preview_vegetasi" class="photo-preview">
+      </div>
+      <div class="photo-box">
+        <label>Foto Asap Jika Ada <span class="req">*</span></label>
+        <input id="foto_asap" type="file" accept="image/*" capture="environment" required>
+        <img id="preview_asap" class="photo-preview">
+      </div>
+    </div>
+    <p class="note">Pada HP, tombol file dapat membuka kamera. Foto disimpan lokal pada perangkat untuk prototipe.</p>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Kondisi Api dan Asap</div>
+    <div class="grid">
+      <div class="field">
+        <label>Apakah Ada Api? <span class="req">*</span></label>
+        <select id="ada_api" required>
+          <option value="">Pilih</option>
+          <option value="ada">Ada</option>
+          <option value="tidak">Tidak</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Apakah Ada Asap? <span class="req">*</span></label>
+        <select id="ada_asap" required>
+          <option value="">Pilih</option>
+          <option value="ada">Ada</option>
+          <option value="tidak">Tidak</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Video Situasi</div>
+    <div class="field">
+      <label>Buat Video Situasi <span class="req">*</span></label>
+      <input id="video_situasi" type="file" accept="video/*" capture="environment" required>
+      <video id="videoPreview" class="video-preview" controls></video>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Status Laporan</div>
+    <div id="statusBox" class="status">Lengkapi data untuk melihat status</div>
+    <p class="note">Status adalah hasil perhitungan lokal prototipe; belum menjadi data Kobo/blockchain.</p>
+  </div>
+
+  <div class="card">
+    <div class="actions">
+      <button class="primary" type="button" onclick="simpanLaporan()">💾 Simpan Laporan</button>
+      <button class="secondary" type="button" onclick="resetForm()">↺ Reset</button>
+    </div>
+  </div>
 </section>
 
-<section id="dash" class="page">
-<div class="stats">
-<div class="stat">🟢<b id="safeN">0</b><small>Aman</small></div>
-<div class="stat">🟡<b id="warnN">0</b><small>Waspada</small></div>
-<div class="stat">🔴<b id="criticalN">0</b><small>Darurat</small></div>
-</div>
-<div class="card">
-<h2>Daftar Laporan</h2>
-<div id="reports"><div class="empty">Belum ada laporan.</div></div>
-<div class="row" style="margin-top:12px"><button class="btn secondary" onclick="exportCSV()">⬇️ Export CSV</button><button class="btn danger" onclick="clearReports()">Hapus Semua Data</button></div>
-</div>
+<section id="dashboardTab" class="hidden">
+  <div class="card">
+    <div class="section-title">Dashboard Laporan</div>
+    <div id="summary"></div>
+  </div>
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Lokasi</th><th>Waktu</th><th>GPS</th>
+            <th>MAT</th><th>Api</th><th>Asap</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="reportTable"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="actions">
+      <button class="secondary" onclick="exportCSV()">⬇ Export CSV</button>
+      <button class="secondary" onclick="hapusSemua()">🗑 Hapus semua data lokal</button>
+    </div>
+  </div>
 </section>
 </main>
+
 <script>
+const KEY='gambutwatch_kobo_aligned_v2';
 const $=id=>document.getElementById(id);
-function setTime(){$('time').value=new Date().toLocaleString('id-ID',{dateStyle:'medium',timeStyle:'short'});}
-function newId(){const d=new Date(),p=n=>String(n).padStart(2,'0');return 'GBT-'+d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+p(d.getHours())+p(d.getMinutes())+p(d.getSeconds());}
-$('rid').value=newId(); setTime();
-function getGPS(){
- if(!navigator.geolocation){alert('Browser tidak mendukung GPS.');return}
- navigator.geolocation.getCurrentPosition(p=>{$('gps').value=p.coords.latitude.toFixed(6)+', '+p.coords.longitude.toFixed(6)},e=>alert('GPS tidak tersedia/izin belum diberikan: '+e.message),{enableHighAccuracy:true,timeout:10000});
+
+function nowText(){
+  const d=new Date();
+  const p=n=>String(n).padStart(2,'0');
+  return `${p(d.getDate())} Sep ${d.getFullYear()}, ${p(d.getHours())}:${p(d.getMinutes())}`;
 }
-[1,2,3,4].forEach(n=>$('photo'+n).onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$('preview'+n).src=r.result;$('preview'+n).style.display='block';$('photo'+n).dataset.data=r.result};r.readAsDataURL(f);});
-['temp','water','condition','smoke','fire'].forEach(id=>$(id).addEventListener('input',calcStatus));
-function calcStatus(){
- let fire=$('fire').value==='Ada', smoke=$('smoke').value==='Ada', c=$('condition').value, w=parseFloat($('water').value);
- let s=fire?'critical':(smoke||c==='Sangat Kering'||(!isNaN(w)&&w<=-60))?'warn':(c==='Kering'||(!isNaN(w)&&w<=-40))?'warn':'safe';
- let box=$('statusBox');box.className='status '+s;box.textContent=s==='critical'?'🔴 DARURAT':s==='warn'?'🟡 WASPADA':'🟢 AMAN';return s;
+function idBaru(){
+  const d=new Date(),p=n=>String(n).padStart(2,'0');
+  return `GBT-${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;
 }
-function getReports(){return JSON.parse(localStorage.getItem('gambutReports')||'[]')}
-function saveReport(){
- const photos=[1,2,3,4].map(n=>$('photo'+n).dataset.data||'');
- const required=['loc','gps','temp','water','condition','smoke','fire'];
- if(required.some(id=>!$(id).value.trim())||photos.some(p=>!p)){alert('Lengkapi lokasi, GPS, suhu, muka air, kondisi, asap, api, dan 4 foto.');return;}
- const status=calcStatus();
- const r={id:$('rid').value,loc:$('loc').value,gps:$('gps').value,time:$('time').value,
- temp:$('temp').value,water:$('water').value,condition:$('condition').value,smoke:$('smoke').value,fire:$('fire').value,status,notes:$('notes').value,photos};
- const arr=getReports();arr.unshift(r);
- try{localStorage.setItem('gambutReports',JSON.stringify(arr));alert('Laporan tersimpan di perangkat ini.');render();showPage('dash',document.querySelectorAll('nav button')[1]);}
- catch(e){alert('Penyimpanan penuh. Hapus data lama atau gunakan foto berukuran lebih kecil.');}
+function init(){
+  $('idLaporan').value=idBaru();
+  $('waktu').value=nowText();
+  ['foto_mat','foto_vegetasi','foto_asap'].forEach(x=>{
+    $(x).addEventListener('change',()=>previewImage(x,'preview_'+x.replace('foto_','')));
+  });
+  $('video_situasi').addEventListener('change',()=>{
+    const f=$('video_situasi').files[0];
+    if(!f)return;
+    $('videoPreview').src=URL.createObjectURL(f);
+    $('videoPreview').style.display='block';
+  });
+  ['ada_api','ada_asap','tinggi_muka_air_gambut','suhu'].forEach(x=>$(x).addEventListener('input',hitungStatus));
+  render();
 }
+function previewImage(inputId,previewId){
+  const f=$(inputId).files[0];
+  if(!f)return;
+  const img=$(previewId);
+  img.src=URL.createObjectURL(f);
+  img.style.display='block';
+}
+function ambilGPS(){
+  if(!navigator.geolocation){alert('Browser tidak mendukung GPS.');return;}
+  $('gps').value='Mengambil GPS...';
+  navigator.geolocation.getCurrentPosition(pos=>{
+    $('gps').value=`${pos.coords.latitude.toFixed(6)}, ${pos.coords.longitude.toFixed(6)}`;
+  },err=>{
+    $('gps').value='';
+    alert('GPS gagal diambil. Pastikan izin lokasi browser aktif.');
+  },{enableHighAccuracy:true,timeout:15000});
+}
+function status(){
+  const api=$('ada_api').value;
+  const asap=$('ada_asap').value;
+  const mat=parseFloat($('tinggi_muka_air_gambut').value);
+  if(api==='ada') return ['DARURAT','darurat'];
+  if(asap==='ada' || (!isNaN(mat)&&mat<=-60)) return ['WASPADA','waspada'];
+  if(!isNaN(mat)&&mat<=-40) return ['WASPADA','waspada'];
+  return ['AMAN','aman'];
+}
+function hitungStatus(){
+  const [s,c]=status();
+  const box=$('statusBox');
+  box.textContent=s;
+  box.className='status '+c;
+}
+async function fileData(file){
+  if(!file)return '';
+  return await new Promise((res,rej)=>{
+    const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file);
+  });
+}
+async function simpanLaporan(){
+  const required=['kabupaten','kecamatan','gps','waktu','tinggi_muka_air_gambut','suhu','ada_api','ada_asap','foto_mat','foto_vegetasi','foto_asap','video_situasi'];
+  for(const id of required){
+    const el=$(id);
+    if((el.type==='file' && !el.files.length) || (!el.value && el.type!=='file')){
+      alert('Mohon lengkapi semua data wajib: '+id);
+      el.focus(); return;
+    }
+  }
+  const [statusText]=status();
+  const r={
+    id_laporan:$('idLaporan').value,
+    nama_lokasi:$('kabupaten').value,
+    kecamatan:$('kecamatan').value,
+    nama_petugas:$('petugas').value,
+    gps:$('gps').value,
+    waktu:$('waktu').value,
+    tinggi_muka_air_gambut:$('tinggi_muka_air_gambut').value,
+    foto_mat:await fileData($('foto_mat').files[0]),
+    foto_vegetasi:await fileData($('foto_vegetasi').files[0]),
+    ada_api:$('ada_api').value,
+    foto_asap:await fileData($('foto_asap').files[0]),
+    ada_asap:$('ada_asap').value,
+    suhu:$('suhu').value,
+    video_situasi:$('video_situasi').files[0] ? $('video_situasi').files[0].name : '',
+    status:statusText,
+    created_at:new Date().toISOString()
+  };
+  const data=JSON.parse(localStorage.getItem(KEY)||'[]');
+  data.push(r);
+  localStorage.setItem(KEY,JSON.stringify(data));
+  alert('Laporan tersimpan di perangkat. Belum dikirim ke Kobo.');
+  resetForm();
+  render();
+  showTab('dashboard');
+}
+function resetForm(){
+  document.querySelectorAll('input,select,textarea').forEach(el=>{
+    if(el.id==='idLaporan')el.value=idBaru();
+    else if(el.id==='waktu')el.value=nowText();
+    else if(el.type==='file')el.value='';
+    else if(!el.readOnly)el.value='';
+  });
+  ['preview_mat','preview_vegetasi','preview_asap','videoPreview'].forEach(id=>$(id).style.display='none');
+  $('gps').value='';
+  $('statusBox').textContent='Lengkapi data untuk melihat status';
+  $('statusBox').className='status';
+}
+function getData(){return JSON.parse(localStorage.getItem(KEY)||'[]')}
 function render(){
- const a=getReports();$('safeN').textContent=a.filter(x=>x.status==='safe').length;$('warnN').textContent=a.filter(x=>x.status==='warn').length;$('criticalN').textContent=a.filter(x=>x.status==='critical').length;
- if(!a.length){$('reports').innerHTML='<div class="empty">Belum ada laporan.</div>';return}
- $('reports').innerHTML='<table><thead><tr><th>ID</th><th>Lokasi/GPS</th><th>Waktu</th><th>Kondisi</th><th>Foto</th><th>Api/Asap</th><th>Status</th></tr></thead><tbody>'+a.map(r=>`<tr><td><b>${esc(r.id)}</b></td><td>${esc(r.loc)}<br><small>${esc(r.gps||'-')}</small></td><td>${esc(r.time)}</td><td>${esc(r.condition)}<br>${esc(r.water)} cm · ${esc(r.temp)}°C</td><td>${(r.photos||[]).map(p=>p?`<img src="${p}" style="width:58px;height:44px;object-fit:cover;border-radius:6px;margin:2px">`:``).join("")}</td><td>Asap: ${esc(r.smoke)}<br>Api: ${esc(r.fire)}</td><td><span class="badge ${r.status==='safe'?'b-safe':r.status==='warn'?'b-warn':'b-critical'}">${r.status==='safe'?'🟢 AMAN':r.status==='warn'?'🟡 WASPADA':'🔴 DARURAT'}</span></td></tr>`).join('')+'</tbody></table>';
+  const d=getData();
+  const a=d.filter(x=>x.status==='AMAN').length;
+  const w=d.filter(x=>x.status==='WASPADA').length;
+  const dr=d.filter(x=>x.status==='DARURAT').length;
+  $('summary').innerHTML=`Total: <b>${d.length}</b> &nbsp; | &nbsp; <b>AMAN ${a}</b> &nbsp; <b>WASPADA ${w}</b> &nbsp; <b>DARURAT ${dr}</b>`;
+  $('reportTable').innerHTML=d.slice().reverse().map(x=>`
+    <tr>
+      <td>${esc(x.id_laporan)}</td>
+      <td>${esc(x.nama_lokasi)}<br>${esc(x.kecamatan)}</td>
+      <td>${esc(x.waktu)}</td>
+      <td>${esc(x.gps)}</td>
+      <td>${esc(x.tinggi_muka_air_gambut)} cm</td>
+      <td>${esc(x.ada_api)}</td>
+      <td>${esc(x.ada_asap)}</td>
+      <td><span class="badge ${x.status.toLowerCase()}">${x.status}</span></td>
+    </tr>`).join('') || '<tr><td colspan="8">Belum ada laporan.</td></tr>';
 }
-function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function showPage(id,btn){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');render()}
-function clearReports(){if(confirm('Hapus semua laporan dari perangkat ini?')){localStorage.removeItem('gambutReports');render()}}
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function exportCSV(){
- const a=getReports();if(!a.length){alert('Belum ada data.');return}
- const cols=['id','loc','gps','time','temp','water','condition','smoke','fire','status','notes'];let csv=cols.join(',')+'\\n'+a.map(r=>cols.map(c=>`"${String(r[c]??'').replaceAll('"','""')}"`).join(',')).join('\\n');
- const blob=new Blob([csv],{type:'text/csv'}),u=URL.createObjectURL(blob),x=document.createElement('a');x.href=u;x.download='laporan-gambut.csv';x.click();URL.revokeObjectURL(u);
+  const d=getData();
+  if(!d.length){alert('Belum ada data.');return}
+  const cols=['id_laporan','nama_lokasi','kecamatan','nama_petugas','gps','waktu','tinggi_muka_air_gambut','ada_api','ada_asap','suhu','status','video_situasi','created_at'];
+  const csv=[cols.join(','),...d.map(r=>cols.map(c=>`"${String(r[c]??'').replace(/"/g,'""')}"`).join(','))].join('\\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='gambutwatch_laporan.csv';a.click();
 }
-calcStatus();render();
+function hapusSemua(){
+  if(confirm('Hapus semua laporan lokal di perangkat ini?')){localStorage.removeItem(KEY);render();}
+}
+function showTab(tab){
+  $('inputTab').classList.toggle('hidden',tab!=='input');
+  $('dashboardTab').classList.toggle('hidden',tab!=='dashboard');
+  $('tabInput').classList.toggle('active',tab==='input');
+  $('tabDash').classList.toggle('active',tab==='dashboard');
+  if(tab==='dashboard')render();
+}
+init();
 </script>
-</body></html>
+</body>
+</html>
